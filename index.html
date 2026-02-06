@@ -3185,7 +3185,7 @@
                         <h4>${customer.name}</h4>
                         <p><strong>Email:</strong> ${customer.email} | <strong>Phone:</strong> ${customer.phone}</p>
                         <p style="font-size: 0.85rem; margin-top: 0.3rem;"><strong>Address:</strong> ${customer.address}</p>
-                        <p style="font-size: 0.8rem; color: var(--gray); margin-top: 0.3rem;">Added: ${customer.createdAt}</p>
+                        <p style="font-size: 0.8rem; color: var(--gray); margin-top: 0.3rem;">Added: ${customer.createdAt && customer.createdAt.toDate ? customer.createdAt.toDate().toLocaleString() : (customer.createdAt || 'N/A')}</p>
                     </div>
                     <div class="field-actions">
                         <button onclick="viewCustomer(${index})">View</button>
@@ -3227,7 +3227,7 @@
                         </div>
                         <div class="detail-row">
                             <strong>Added:</strong>
-                            <span>${customer.createdAt}</span>
+                            <span>${customer.createdAt && customer.createdAt.toDate ? customer.createdAt.toDate().toLocaleString() : (customer.createdAt || 'N/A')}</span>
                         </div>
                         ${customer.updatedAt ? `
                         <div class="detail-row">
@@ -3444,7 +3444,7 @@
                     <div class="field-info">
                         <h4>${item.name}</h4>
                         <p><strong>Price:</strong> $${item.price.toFixed(2)}</p>
-                        <p style="font-size: 0.8rem; color: var(--gray); margin-top: 0.3rem;">Added: ${item.createdAt}</p>
+                        <p style="font-size: 0.8rem; color: var(--gray); margin-top: 0.3rem;">Added: ${item.createdAt && item.createdAt.toDate ? item.createdAt.toDate().toLocaleString() : (item.createdAt || 'N/A')}</p>
                     </div>
                     <div class="field-actions">
                         <button onclick="viewItem(${index})">View</button>
@@ -3478,12 +3478,12 @@
                         </div>
                         <div class="detail-row">
                             <strong>Added:</strong>
-                            <span>${item.createdAt}</span>
+                            <span>${item.createdAt && item.createdAt.toDate ? item.createdAt.toDate().toLocaleString() : (item.createdAt || 'N/A')}</span>
                         </div>
                         ${item.updatedAt ? `
                         <div class="detail-row">
                             <strong>Last Updated:</strong>
-                            <span>${item.updatedAt}</span>
+                            <span>${item.updatedAt && item.updatedAt.toDate ? item.updatedAt.toDate().toLocaleString() : (item.updatedAt || 'N/A')}</span>
                         </div>
                         ` : ''}
                     </div>
