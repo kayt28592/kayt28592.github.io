@@ -2708,6 +2708,9 @@
                 const customerName = this.value;
                 const customerInfo = document.getElementById('customerInfo');
                 
+                // Filter the customer datalist as user types
+                populateCustomerDropdown(customerName);
+                
                 // Find matching customer
                 const customer = window.customers.find(c => c.name === customerName);
                 
@@ -2733,6 +2736,17 @@
                     document.getElementById('customerInfoAddress').textContent = customer.address;
                     customerInfo.style.display = 'block';
                 }
+            });
+        }
+        
+        // Order input - filter items as user types
+        const orderInput = document.getElementById('order');
+        if (orderInput) {
+            orderInput.addEventListener('input', function() {
+                const searchText = this.value;
+                
+                // Filter the order datalist as user types
+                populateItemDropdown(searchText);
             });
         }
         
@@ -3047,15 +3061,24 @@
         }
 
         // Populate customer dropdown
-        function populateCustomerDropdown() {
+        function populateCustomerDropdown(searchText = '') {
             const customerList = document.getElementById('customerList');
             if (!customerList) return;
             
             // Clear existing options
             customerList.innerHTML = '';
             
+            // Filter customers based on search text
+            const filteredCustomers = window.customers.filter(customer => {
+                if (!searchText) return true;
+                const search = searchText.toLowerCase();
+                return customer.name.toLowerCase().includes(search) ||
+                       customer.email.toLowerCase().includes(search) ||
+                       customer.phone.toLowerCase().includes(search);
+            });
+            
             // Add customer options
-            window.customers.forEach((customer, index) => {
+            filteredCustomers.forEach((customer, index) => {
                 const option = document.createElement('option');
                 option.value = customer.name;
                 option.setAttribute('data-email', customer.email);
@@ -3066,7 +3089,7 @@
                 customerList.appendChild(option);
             });
             
-            console.log('Customer datalist populated with', window.customers.length, 'customers');
+            console.log('Customer datalist populated with', filteredCustomers.length, 'customers');
         }
 
         function openCustomerModal(customerIndex = null) {
@@ -3330,15 +3353,21 @@
         }
 
         // Populate item dropdown (order field)
-        function populateItemDropdown() {
+        function populateItemDropdown(searchText = '') {
             const orderList = document.getElementById('orderList');
             if (!orderList) return;
             
             // Clear all existing options
             orderList.innerHTML = '';
             
+            // Filter items based on search text
+            const filteredItems = window.items.filter(item => {
+                if (!searchText) return true;
+                return item.name.toLowerCase().includes(searchText.toLowerCase());
+            });
+            
             // Add only item options
-            window.items.forEach((item, index) => {
+            filteredItems.forEach((item, index) => {
                 const option = document.createElement('option');
                 option.value = item.name;
                 option.setAttribute('data-price', item.price);
@@ -3346,7 +3375,7 @@
                 orderList.appendChild(option);
             });
             
-            console.log('Item dropdown populated with', window.items.length, 'items');
+            console.log('Item dropdown populated with', filteredItems.length, 'items');
         }
 
         function openItemModal(itemIndex = null) {
